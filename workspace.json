@@ -1,0 +1,99 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "defaultProject": "ssr-app",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "ssr-app": {
+      "root": "apps/ssr-app",
+      "sourceRoot": "apps/ssr-app",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "root": "apps/ssr-app",
+            "outputPath": "dist/apps/ssr-app"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "ssr-app:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "ssr-app:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "ssr-app:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ssr-app"],
+          "options": {
+            "jestConfig": "apps/ssr-app/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ssr-app/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      }
+    },
+    "ssr-app-e2e": {
+      "root": "apps/ssr-app-e2e",
+      "sourceRoot": "apps/ssr-app-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ssr-app-e2e/cypress.json",
+            "tsConfig": "apps/ssr-app-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ssr-app:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ssr-app:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ssr-app-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    }
+  }
+}
