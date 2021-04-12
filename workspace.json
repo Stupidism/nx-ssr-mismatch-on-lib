@@ -1,20 +1,11 @@
 {
   "version": 2,
-  "cli": {
-    "defaultCollection": "@nrwl/next"
-  },
+  "cli": { "defaultCollection": "@nrwl/next" },
   "defaultProject": "ssr-app",
   "generators": {
-    "@nrwl/react": {
-      "application": {
-        "babel": true
-      }
-    },
+    "@nrwl/react": { "application": { "babel": true } },
     "@nrwl/next": {
-      "application": {
-        "style": "styled-components",
-        "linter": "eslint"
-      }
+      "application": { "style": "styled-components", "linter": "eslint" }
     }
   },
   "projects": {
@@ -30,16 +21,12 @@
             "root": "apps/ssr-app",
             "outputPath": "dist/apps/ssr-app"
           },
-          "configurations": {
-            "production": {}
-          }
+          "configurations": { "production": {} }
         },
         "serve": {
           "executor": "@nrwl/next:server",
-          "options": {
-            "buildTarget": "ssr-app:build",
-            "dev": true
-          },
+          "options": { 
+            "buildTarget": "ssr-app:build", "dev": true, "port": 4321 },
           "configurations": {
             "production": {
               "buildTarget": "ssr-app:build:production",
@@ -49,9 +36,7 @@
         },
         "export": {
           "executor": "@nrwl/next:export",
-          "options": {
-            "buildTarget": "ssr-app:build:production"
-          }
+          "options": { "buildTarget": "ssr-app:build:production" }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
@@ -82,15 +67,32 @@
             "devServerTarget": "ssr-app:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "ssr-app:serve:production"
-            }
+            "production": { "devServerTarget": "ssr-app:serve:production" }
           }
         },
         "lint": {
           "executor": "@nrwl/linter:eslint",
+          "options": { "lintFilePatterns": ["apps/ssr-app-e2e/**/*.{js,ts}"] }
+        }
+      }
+    },
+    "styled-lib": {
+      "root": "libs/styled-lib",
+      "sourceRoot": "libs/styled-lib/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/ssr-app-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": ["libs/styled-lib/**/*.{ts,tsx,js,jsx}"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/styled-lib"],
+          "options": {
+            "jestConfig": "libs/styled-lib/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
